@@ -55,7 +55,7 @@ function formToData() {
     goalOne: data.get("goalOne").trim(),
     goalTwo: data.get("goalTwo").trim(),
     support: data.get("support").trim(),
-    sentenceTarget: data.get("sentenceTarget"),
+    sentenceTarget: Number(data.get("sentenceTarget")),
     encouragement: data.get("encouragement").trim()
   };
 }
@@ -115,6 +115,10 @@ function validateData(data) {
 
   if (!data.atlSkills.length) {
     missing.push("at least one approach to learning");
+  }
+
+  if (!Number.isInteger(data.sentenceTarget) || data.sentenceTarget < 5 || data.sentenceTarget > 30) {
+    missing.push("a target length from 5 to 30 sentences");
   }
 
   return missing;

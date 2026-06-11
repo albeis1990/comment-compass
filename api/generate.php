@@ -43,7 +43,7 @@ $request = [
         ],
     ],
     'store' => false,
-    'max_output_tokens' => 1400,
+    'max_output_tokens' => 4500,
     'text' => [
         'format' => [
             'type' => 'json_schema',
@@ -142,7 +142,7 @@ function sanitized_teacher_payload(array $payload): array
             'support' => clean_text($payload['support'] ?? ''),
         ],
         'style' => [
-            'sentenceTarget' => clean_text($payload['sentenceTarget'] ?? '6'),
+            'sentenceTarget' => sentence_target($payload['sentenceTarget'] ?? 6),
             'finalEncouragement' => clean_text($payload['encouragement'] ?? ''),
         ],
     ];
@@ -155,6 +155,19 @@ function clean_text(mixed $value): string
     return function_exists('mb_substr') ? mb_substr($text, 0, 900) : substr($text, 0, 900);
 }
 
+function sentence_target(mixed $value): int
+{
+    $target = filter_var($value, FILTER_VALIDATE_INT, [
+        'options' => [
+            'default' => 6,
+            'min_range' => 5,
+            'max_range' => 30,
+        ],
+    ]);
+
+    return is_int($target) ? $target : 6;
+}
+
 function report_comment_system_prompt(): string
 {
     return <<<'PROMPT'
@@ -162,7 +175,7 @@ You write formal IB primary school end-of-semester and end-of-year report commen
 
 Follow these non-negotiable rules:
 - Use a formal report-comment genre with passive voice where it sounds natural. Do not use first-person personal pronouns such as I, me, my, we, us or our.
-- Keep the comment short, effective, positive and cohesive.
+- Keep each sentence concise, effective, positive and cohesive.
 - Positive achievement comments must outweigh improvement comments.
 - Include specific evidence from the teacher input. Do not invent events, subjects, behaviour, goals or achievements.
 - Include one or two areas for improvement only. Each improvement must be written as a positive, specific next goal.
@@ -176,7 +189,7 @@ Follow these non-negotiable rules:
 - Use clear parent-friendly language. Avoid specialist terms such as higher order thinking, metacognition, transdisciplinary, summative assessment or conceptual understanding.
 - Include learner profile attributes and approaches to learning only when connected to evidence, and express them in parent-friendly language.
 - Choose the most important evidence and goals. Do not crowd the report.
-- The target length is the teacher's requested number of sentences unless cohesion requires one sentence fewer or more.
+- The target length is the teacher's requested number of sentences, from 5 to 30, unless cohesion requires one sentence fewer or more.
 
 Return only JSON that matches the supplied schema.
 PROMPT;
@@ -237,6 +250,9 @@ function local_comment_audit(string $comment, array $payload): array
     $hasAbbreviation = preg_match('/\b(UOI|P4C|ECA)\b/u', $comment) === 1;
     $startsWithExpectedName = $studentName !== '' && str_starts_with($comment, $studentName);
     $sentenceCount = count(array_filter(preg_split('/(?<=[.!?])\s+/u', trim($comment)) ?: []));
+    $target = sentence_target($payload['sentenceTarget'] ?? 6);
+    $minimum = max(5, $target - 1);
+    $maximum = min(30, $target + 1);
 
     return [
         'no_first_person' => [
@@ -252,8 +268,8 @@ function local_comment_audit(string $comment, array $payload): array
             'pass' => $startsWithExpectedName,
         ],
         'sentence_range' => [
-            'label' => "Sentence count: {$sentenceCount}",
-            'pass' => $sentenceCount >= 5 && $sentenceCount <= 7,
+            'label' => "Sentence count: {$sentenceCount} of target {$target}",
+            'pass' => $sentenceCount >= $minimum && $sentenceCount <= $maximum,
         ],
     ];
 }
