@@ -14,6 +14,7 @@ const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   "Write maths or mathematics in lowercase",
   "Avoid unnecessary information",
   "Use clear parent-friendly language",
+  "must contain exactly that number of sentences",
   "Approved comment style to follow",
   "start the second with \"Another goal...\""
 ].forEach((rule) => {
@@ -28,7 +29,8 @@ const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   "Learner profile attributes",
   "Approaches to learning",
   "Most important goal",
-  "max=\"30\""
+  "max=\"30\"",
+  "Exact sentence count"
 ].forEach((label) => {
   assert.match(html, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `Missing essential field: ${label}`);
 });

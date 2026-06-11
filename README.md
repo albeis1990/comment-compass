@@ -12,7 +12,7 @@ The OpenAI API key is used only by the PHP endpoint in `api/generate.php`. It is
 - One or two learner profile attributes with evidence
 - One or two approaches to learning with evidence
 - One or two positive next goals
-- Target length from 5 to 30 sentences
+- Exact sentence count from 5 to 30 sentences
 - Optional school or parent support
 
 ## Comment Rules
@@ -31,7 +31,7 @@ The app prompt enforces these report-writing constraints:
 - Correct capitalization for English, Chinese, Philosophy for Children, Unit of Inquiry, Grade and Sports Day
 - Lowercase maths or mathematics
 - Parent-friendly wording with no unnecessary curriculum detail
-- Teacher-selected length from 5 to 30 sentences
+- Teacher-selected exact length from 5 to 30 sentences
 - Approved example-comment structure: learner-profile opening, subject evidence, wider-school contribution, separated goals, and final encouragement
 
 ## Local Preview

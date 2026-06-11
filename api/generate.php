@@ -30,40 +30,28 @@ if ($apiKey === '') {
 }
 
 $model = app_env('OPENAI_MODEL', 'gpt-5.5');
-$request = [
-    'model' => $model,
-    'input' => [
-        [
-            'role' => 'system',
-            'content' => report_comment_system_prompt(),
-        ],
-        [
-            'role' => 'user',
-            'content' => "Teacher evidence:\n" . json_encode(sanitized_teacher_payload($payload), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-        ],
-    ],
-    'store' => false,
-    'max_output_tokens' => 4500,
-    'text' => [
-        'format' => [
-            'type' => 'json_schema',
-            'name' => 'report_comment_output',
-            'strict' => true,
-            'schema' => report_comment_schema(),
-        ],
-    ],
-];
 
 try {
+    $request = report_comment_request($model, $payload);
     $openaiResponse = openai_responses_request($apiKey, $request);
-    $outputText = extract_output_text($openaiResponse);
-    $result = json_decode($outputText, true);
+    $result = decode_report_result($openaiResponse);
 
-    if (!is_array($result) || !isset($result['comment'])) {
-        json_response(['error' => 'The model response could not be read. Please try again.'], 502);
+    $audit = local_comment_audit((string)$result['comment'], $payload);
+
+    if (!$audit['sentence_range']['pass']) {
+        $rewriteRequest = report_comment_request($model, $payload, (string)$result['comment'], sentence_count((string)$result['comment']));
+        $rewriteResponse = openai_responses_request($apiKey, $rewriteRequest);
+        $rewriteResult = decode_report_result($rewriteResponse);
+        $rewriteAudit = local_comment_audit((string)$rewriteResult['comment'], $payload);
+
+        if ($rewriteAudit['sentence_range']['pass'] || sentence_count((string)$rewriteResult['comment']) > sentence_count((string)$result['comment'])) {
+            $openaiResponse = $rewriteResponse;
+            $result = $rewriteResult;
+            $audit = $rewriteAudit;
+        }
     }
 
-    $result['local_audit'] = local_comment_audit((string)$result['comment'], $payload);
+    $result['local_audit'] = $audit;
 
     json_response([
         'model' => (string)($openaiResponse['model'] ?? $model),
@@ -71,6 +59,57 @@ try {
     ]);
 } catch (Throwable $error) {
     json_response(['error' => $error->getMessage()], 502);
+}
+
+function report_comment_request(string $model, array $payload, ?string $previousComment = null, ?int $previousSentenceCount = null): array
+{
+    $target = sentence_target($payload['sentenceTarget'] ?? 6);
+    $teacherEvidence = json_encode(sanitized_teacher_payload($payload), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($teacherEvidence === false) {
+        throw new RuntimeException('The teacher evidence could not be encoded.');
+    }
+
+    $userContent = "Teacher evidence:\n{$teacherEvidence}\n\nLength requirement: Write exactly {$target} sentences. This is a hard requirement, not a suggestion. Count the final comment sentences before returning JSON.";
+
+    if ($previousComment !== null && $previousSentenceCount !== null) {
+        $userContent .= "\n\nThe previous draft had {$previousSentenceCount} sentences, so it did not meet the required {$target}-sentence length. Rewrite it to exactly {$target} sentences while preserving the same teacher evidence and report-comment rules.\n\nPrevious draft:\n{$previousComment}";
+    }
+
+    return [
+        'model' => $model,
+        'input' => [
+            [
+                'role' => 'system',
+                'content' => report_comment_system_prompt(),
+            ],
+            [
+                'role' => 'user',
+                'content' => $userContent,
+            ],
+        ],
+        'store' => false,
+        'max_output_tokens' => 6000,
+        'text' => [
+            'format' => [
+                'type' => 'json_schema',
+                'name' => 'report_comment_output',
+                'strict' => true,
+                'schema' => report_comment_schema(),
+            ],
+        ],
+    ];
+}
+
+function decode_report_result(array $openaiResponse): array
+{
+    $outputText = extract_output_text($openaiResponse);
+    $result = json_decode($outputText, true);
+
+    if (!is_array($result) || !isset($result['comment'])) {
+        json_response(['error' => 'The model response could not be read. Please try again.'], 502);
+    }
+
+    return $result;
 }
 
 function validate_teacher_payload(array $payload): ?string
@@ -189,7 +228,7 @@ Follow these non-negotiable rules:
 - Use clear parent-friendly language. Avoid specialist terms such as higher order thinking, metacognition, transdisciplinary, summative assessment or conceptual understanding.
 - Include learner profile attributes and approaches to learning only when connected to evidence, and express them in parent-friendly language.
 - Choose the most important evidence and goals. Do not crowd the report.
-- The target length is the teacher's requested number of sentences, from 5 to 30, unless cohesion requires one sentence fewer or more.
+- The target length is the teacher's requested number of sentences, from 5 to 30. This is a hard requirement. The final comment must contain exactly that number of sentences.
 
 Approved comment style to follow:
 - Begin with a polished overall learner-profile sentence, such as a principled, caring, knowledgeable, courageous or inquiring attitude, connected to specific evidence.
@@ -259,10 +298,8 @@ function local_comment_audit(string $comment, array $payload): array
     $hasForbiddenPronoun = preg_match('/\b(I|me|my|mine|we|us|our|ours)\b/u', $comment) === 1;
     $hasAbbreviation = preg_match('/\b(UOI|P4C|ECA)\b/u', $comment) === 1;
     $startsWithExpectedName = $studentName !== '' && str_starts_with($comment, $studentName);
-    $sentenceCount = count(array_filter(preg_split('/(?<=[.!?])\s+/u', trim($comment)) ?: []));
+    $sentenceCount = sentence_count($comment);
     $target = sentence_target($payload['sentenceTarget'] ?? 6);
-    $minimum = max(5, $target - 1);
-    $maximum = min(30, $target + 1);
 
     return [
         'no_first_person' => [
@@ -279,7 +316,12 @@ function local_comment_audit(string $comment, array $payload): array
         ],
         'sentence_range' => [
             'label' => "Sentence count: {$sentenceCount} of target {$target}",
-            'pass' => $sentenceCount >= $minimum && $sentenceCount <= $maximum,
+            'pass' => $sentenceCount === $target,
         ],
     ];
+}
+
+function sentence_count(string $comment): int
+{
+    return count(array_filter(preg_split('/(?<=[.!?])\s+/u', trim($comment)) ?: []));
 }
