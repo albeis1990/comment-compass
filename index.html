@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comment Compass</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <path d="M5 5.75A2.75 2.75 0 0 1 7.75 3H19v14.25A2.75 2.75 0 0 1 16.25 20H7.75A2.75 2.75 0 0 1 5 17.25V5.75Z"></path>
+              <path d="M9 7h6M9 11h6M9 15h3"></path>
+            </svg>
+          </span>
+          <div>
+            <h1>Comment Compass</h1>
+            <p>IB primary report comments for Grades 1 to 5</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <label class="access-field">
+            <span>Access code</span>
+            <input id="passcode" type="password" autocomplete="current-password" placeholder="Optional">
+          </label>
+          <button class="icon-button" id="clearDraft" type="button" title="Clear saved draft" aria-label="Clear saved draft">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <form class="input-panel" id="commentForm">
+          <section class="form-section">
+            <div class="section-title">
+              <h2>Student</h2>
+              <span>Required</span>
+            </div>
+            <div class="grid two">
+              <label>
+                <span>Chinese name</span>
+                <input name="chineseName" type="text" placeholder="王小明">
+              </label>
+              <label>
+                <span>English given name</span>
+                <input name="englishName" type="text" placeholder="Eric">
+              </label>
+              <label>
+                <span>Grade</span>
+                <select name="grade" required>
+                  <option value="">Select</option>
+                  <option>Grade 1</option>
+                  <option>Grade 2</option>
+                  <option>Grade 3</option>
+                  <option>Grade 4</option>
+                  <option>Grade 5</option>
+                </select>
+              </label>
+              <label>
+                <span>Report period</span>
+                <select name="period" required>
+                  <option>End of semester</option>
+                  <option>End of year</option>
+                </select>
+              </label>
+            </div>
+            <fieldset class="segmented" aria-label="Pronouns">
+              <legend>Pronouns</legend>
+              <label><input type="radio" name="pronouns" value="he/him" checked><span>he/him</span></label>
+              <label><input type="radio" name="pronouns" value="she/her"><span>she/her</span></label>
+              <label><input type="radio" name="pronouns" value="they/them"><span>they/them</span></label>
+            </fieldset>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h2>Learning Evidence</h2>
+              <span>Keep only what matters</span>
+            </div>
+            <label>
+              <span>Strongest learning praise</span>
+              <textarea name="strengthEvidence" required rows="3" placeholder="e.g. contributes thoughtful ideas in discussions and uses feedback to improve writing"></textarea>
+            </label>
+            <div class="grid two">
+              <label>
+                <span>English evidence</span>
+                <textarea name="englishEvidence" rows="3" placeholder="specific progress or evidence"></textarea>
+              </label>
+              <label>
+                <span>Chinese evidence</span>
+                <textarea name="chineseEvidence" rows="3" placeholder="specific progress or evidence"></textarea>
+              </label>
+              <label>
+                <span>mathematics evidence</span>
+                <textarea name="mathEvidence" rows="3" placeholder="specific progress or evidence"></textarea>
+              </label>
+              <label>
+                <span>Unit of Inquiry evidence</span>
+                <textarea name="uoiEvidence" rows="3" placeholder="specific progress or evidence"></textarea>
+              </label>
+              <label>
+                <span>Philosophy for Children evidence</span>
+                <textarea name="p4cEvidence" rows="3" placeholder="specific progress or evidence"></textarea>
+              </label>
+              <label>
+                <span>Event or wider school evidence</span>
+                <textarea name="eventEvidence" rows="3" placeholder="e.g. Sports Day teamwork"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h2>IB Focus</h2>
+              <span>One or two each</span>
+            </div>
+            <div class="grid two">
+              <label>
+                <span>Learner profile attributes</span>
+                <select name="learnerProfile" required multiple size="5">
+                  <option>inquirer</option>
+                  <option>knowledgeable</option>
+                  <option>thinker</option>
+                  <option>communicator</option>
+                  <option>principled</option>
+                  <option>open-minded</option>
+                  <option>caring</option>
+                  <option>risk-taker</option>
+                  <option>balanced</option>
+                  <option>reflective</option>
+                </select>
+              </label>
+              <label>
+                <span>Evidence for learner profile</span>
+                <textarea name="learnerProfileEvidence" required rows="5" placeholder="how this was demonstrated"></textarea>
+              </label>
+              <label>
+                <span>Approaches to learning</span>
+                <select name="atlSkills" required multiple size="5">
+                  <option>thinking skills</option>
+                  <option>communication skills</option>
+                  <option>social skills</option>
+                  <option>self-management skills</option>
+                  <option>research skills</option>
+                </select>
+              </label>
+              <label>
+                <span>Evidence for approaches to learning</span>
+                <textarea name="atlEvidence" required rows="5" placeholder="what was seen in class"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h2>Next Goals</h2>
+              <span>Maximum two</span>
+            </div>
+            <label>
+              <span>Most important goal</span>
+              <textarea name="goalOne" required rows="3" placeholder="e.g. review multiplication tables to improve mental maths accuracy"></textarea>
+            </label>
+            <label>
+              <span>Second goal</span>
+              <textarea name="goalTwo" rows="3" placeholder="optional"></textarea>
+            </label>
+            <label>
+              <span>Support from school or parents</span>
+              <textarea name="support" rows="3" placeholder="optional practical support"></textarea>
+            </label>
+            <div class="grid two compact">
+              <label>
+                <span>Target length</span>
+                <select name="sentenceTarget">
+                  <option value="6" selected>6 sentences</option>
+                  <option value="5">5 sentences</option>
+                  <option value="7">7 sentences</option>
+                </select>
+              </label>
+              <label>
+                <span>Final encouragement</span>
+                <input name="encouragement" type="text" placeholder="Well done, Eric!">
+              </label>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3v3M12 18v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M3 12h3M18 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"></path>
+              </svg>
+              Generate comment
+            </button>
+            <button class="secondary-button" id="saveDraft" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 4h12l2 2v14H5V4Z"></path>
+                <path d="M8 4v6h8V4M8 17h8"></path>
+              </svg>
+              Save draft
+            </button>
+          </div>
+        </form>
+
+        <aside class="preview-panel" aria-live="polite">
+          <div class="preview-header">
+            <div>
+              <h2>Report Preview</h2>
+              <p id="modelLabel">Ready</p>
+            </div>
+            <div class="preview-actions">
+              <button class="icon-button" id="copyComment" type="button" title="Copy comment" aria-label="Copy comment">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <button class="icon-button" id="downloadComment" type="button" title="Download comment" aria-label="Download comment">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v12M7 10l5 5 5-5"></path>
+                  <path d="M5 21h14"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="comment-output" id="commentOutput">
+            <p class="empty-state">Generated comments will appear here after the essential student evidence has been entered.</p>
+          </div>
+
+          <div class="checklist">
+            <div class="section-title">
+              <h2>Revision Checklist</h2>
+              <span id="statusPill">No draft</span>
+            </div>
+            <ul id="checklistOutput">
+              <li>Formal report style</li>
+              <li>Positive balance</li>
+              <li>Specific evidence</li>
+              <li>One or two positive goals</li>
+              <li>Correct names and capitalization</li>
+            </ul>
+          </div>
+
+          <div class="notes" id="revisionNotes" hidden>
+            <h2>Notes</h2>
+            <ul></ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <template id="loadingTemplate">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

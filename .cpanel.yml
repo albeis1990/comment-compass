@@ -1,0 +1,10 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=~/public_html/comment-compass/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/mkdir -p $DEPLOYPATH/api
+    - /bin/mkdir -p $DEPLOYPATH/config
+    - /bin/cp index.html styles.css app.js .htaccess $DEPLOYPATH
+    - /bin/cp api/generate.php api/.htaccess $DEPLOYPATH/api/
+    - /bin/cp config/bootstrap.php config/.htaccess $DEPLOYPATH/config/

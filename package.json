@@ -1,0 +1,13 @@
+{
+  "name": "comment-compass",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IB primary report comment generator for shared hosting.",
+  "scripts": {
+    "serve": "vite --host 127.0.0.1",
+    "test": "node tests/rules.test.mjs"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0"
+  }
+}
