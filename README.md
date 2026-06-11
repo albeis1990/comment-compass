@@ -51,7 +51,7 @@ Create an environment file outside the public web directory when possible:
 
 ```bash
 OPENAI_API_KEY=sk-your-key-here
-OPENAI_MODEL=gpt-5.4-mini
+OPENAI_MODEL=gpt-5.5
 APP_PASSCODE=choose-a-private-teacher-code
 ```
 
@@ -100,4 +100,4 @@ Do not upload `.env` to a public directory. Use `~/.comment-compass.env` instead
 
 ## OpenAI Model
 
-The default model is `gpt-5.4-mini` because OpenAI currently positions it as a lower-latency, lower-cost option for API workloads. Change `OPENAI_MODEL` if a different model is preferred or required by the account.
+The default model is `gpt-5.5` for higher-quality report-comment generation. Change `OPENAI_MODEL` if a lower-cost or faster model is preferred.

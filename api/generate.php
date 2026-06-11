@@ -29,7 +29,7 @@ if ($apiKey === '') {
     json_response(['error' => 'OPENAI_API_KEY is not configured on the server.'], 500);
 }
 
-$model = app_env('OPENAI_MODEL', 'gpt-5.4-mini');
+$model = app_env('OPENAI_MODEL', 'gpt-5.5');
 $request = [
     'model' => $model,
     'input' => [

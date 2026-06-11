@@ -33,7 +33,7 @@ const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   assert.match(html, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `Missing essential field: ${label}`);
 });
 
-assert.match(api, /gpt-5\.4-mini/, "Default model should be documented in the API file.");
+assert.match(api, /gpt-5\.5/, "Default model should be documented in the API file.");
 assert.match(api, /APP_PASSCODE/, "Endpoint should support an access code.");
 
 console.log("Rule and field checks passed.");
