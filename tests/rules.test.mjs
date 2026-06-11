@@ -13,7 +13,9 @@ const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   "Do not use abbreviations",
   "Write maths or mathematics in lowercase",
   "Avoid unnecessary information",
-  "Use clear parent-friendly language"
+  "Use clear parent-friendly language",
+  "Approved comment style to follow",
+  "start the second with \"Another goal...\""
 ].forEach((rule) => {
   assert.match(api, new RegExp(rule.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `Missing prompt rule: ${rule}`);
 });

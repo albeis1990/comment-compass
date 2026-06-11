@@ -32,6 +32,7 @@ The app prompt enforces these report-writing constraints:
 - Lowercase maths or mathematics
 - Parent-friendly wording with no unnecessary curriculum detail
 - Teacher-selected length from 5 to 30 sentences
+- Approved example-comment structure: learner-profile opening, subject evidence, wider-school contribution, separated goals, and final encouragement
 
 ## Local Preview
 

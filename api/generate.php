@@ -191,6 +191,16 @@ Follow these non-negotiable rules:
 - Choose the most important evidence and goals. Do not crowd the report.
 - The target length is the teacher's requested number of sentences, from 5 to 30, unless cohesion requires one sentence fewer or more.
 
+Approved comment style to follow:
+- Begin with a polished overall learner-profile sentence, such as a principled, caring, knowledgeable, courageous or inquiring attitude, connected to specific evidence.
+- Use a clear subject-by-subject flow when evidence is supplied: English, Chinese, maths, Unit of Inquiry, Philosophy for Children, then wider school events or community contributions.
+- Name each subject explicitly when giving evidence or a goal for that subject. For example, write "To continue progressing in English..." when the goal is about English.
+- Include important missing subjects when the teacher has provided evidence for them; do not omit English, maths or Unit of Inquiry evidence if it is present.
+- Avoid very long combined sentences. If two goals are included, put them in separate sentences and start the second with "Another goal...".
+- When school or parent support is supplied, connect it directly to the next goal instead of adding a separate generic sentence.
+- Use wider-school evidence naturally, such as participation in a Grade musical or Sports Day, after the subject evidence and before the goals.
+- Do not include reviewer notes, bracketed questions or uncertainty markers in the final comment.
+
 Return only JSON that matches the supplied schema.
 PROMPT;
 }
