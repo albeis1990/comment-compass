@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=~/public_html/comment-compass/
+    - export DEPLOYPATH=~/edlab.cc/comments/
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/mkdir -p $DEPLOYPATH/api
     - /bin/mkdir -p $DEPLOYPATH/config

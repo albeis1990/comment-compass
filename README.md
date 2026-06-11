@@ -61,26 +61,26 @@ Recommended path for cPanel hosting:
 ~/.comment-compass.env
 ```
 
-If the app is deployed to `~/public_html/comment-compass/`, the PHP config loader will find `~/.comment-compass.env`.
+If the app is deployed to `~/edlab.cc/comments/`, the PHP config loader will find `~/.comment-compass.env`.
 
 ## cPanel Git Deployment
 
 The included `.cpanel.yml` deploys the app to:
 
 ```text
-~/public_html/comment-compass/
+~/edlab.cc/comments/
 ```
 
 This creates a directory version at:
 
 ```text
-https://yourdomain.com/comment-compass/
+https://edlab.cc/comments/
 ```
 
-For a subdomain, create the subdomain in cPanel and set its document root to:
+For a subdomain instead, create the subdomain in cPanel and set its document root to:
 
 ```text
-public_html/comment-compass
+edlab.cc/comments
 ```
 
 Then connect this GitHub repository through cPanel Git Version Control and run Deploy.
