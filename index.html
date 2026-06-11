@@ -50,31 +50,34 @@
                 <span>English given name</span>
                 <input name="englishName" type="text" placeholder="Eric">
               </label>
-              <label>
-                <span>Grade</span>
-                <select name="grade" required>
-                  <option value="">Select</option>
-                  <option>Grade 1</option>
-                  <option>Grade 2</option>
-                  <option>Grade 3</option>
-                  <option>Grade 4</option>
-                  <option>Grade 5</option>
-                </select>
-              </label>
-              <label>
-                <span>Report period</span>
-                <select name="period" required>
-                  <option>End of semester</option>
-                  <option>End of year</option>
-                </select>
-              </label>
             </div>
-            <fieldset class="segmented" aria-label="Pronouns">
-              <legend>Pronouns</legend>
-              <label><input type="radio" name="pronouns" value="he/him" checked><span>he/him</span></label>
-              <label><input type="radio" name="pronouns" value="she/her"><span>she/her</span></label>
-              <label><input type="radio" name="pronouns" value="they/them"><span>they/them</span></label>
+            <fieldset class="choice-field">
+              <legend>Grade</legend>
+              <div class="choice-grid grade-grid">
+                <label class="choice-card grade-card"><input type="radio" name="grade" value="Grade 1" required><span><strong>G1</strong><small>Grade 1</small></span></label>
+                <label class="choice-card grade-card"><input type="radio" name="grade" value="Grade 2"><span><strong>G2</strong><small>Grade 2</small></span></label>
+                <label class="choice-card grade-card"><input type="radio" name="grade" value="Grade 3"><span><strong>G3</strong><small>Grade 3</small></span></label>
+                <label class="choice-card grade-card"><input type="radio" name="grade" value="Grade 4"><span><strong>G4</strong><small>Grade 4</small></span></label>
+                <label class="choice-card grade-card"><input type="radio" name="grade" value="Grade 5"><span><strong>G5</strong><small>Grade 5</small></span></label>
+              </div>
             </fieldset>
+            <div class="grid two">
+              <fieldset class="choice-field">
+                <legend>Report period</legend>
+                <div class="choice-grid period-grid">
+                  <label class="choice-card period-card"><input type="radio" name="period" value="End of semester" checked><span><strong>Semester</strong><small>End of semester</small></span></label>
+                  <label class="choice-card period-card"><input type="radio" name="period" value="End of year"><span><strong>Year</strong><small>End of year</small></span></label>
+                </div>
+              </fieldset>
+              <fieldset class="choice-field">
+                <legend>Pronouns</legend>
+                <div class="choice-grid pronoun-grid">
+                  <label class="choice-card pronoun-card"><input type="radio" name="pronouns" value="he/him" checked><span>he/him</span></label>
+                  <label class="choice-card pronoun-card"><input type="radio" name="pronouns" value="she/her"><span>she/her</span></label>
+                  <label class="choice-card pronoun-card"><input type="radio" name="pronouns" value="they/them"><span>they/them</span></label>
+                </div>
+              </fieldset>
+            </div>
           </section>
 
           <section class="form-section">
@@ -120,35 +123,35 @@
               <span>One or two each</span>
             </div>
             <div class="grid two">
-              <label>
-                <span>Learner profile attributes</span>
-                <select name="learnerProfile" required multiple size="5">
-                  <option>inquirer</option>
-                  <option>knowledgeable</option>
-                  <option>thinker</option>
-                  <option>communicator</option>
-                  <option>principled</option>
-                  <option>open-minded</option>
-                  <option>caring</option>
-                  <option>risk-taker</option>
-                  <option>balanced</option>
-                  <option>reflective</option>
-                </select>
-              </label>
+              <fieldset class="choice-field">
+                <legend>Learner profile attributes</legend>
+                <div class="chip-grid profile-grid">
+                  <label class="chip chip-teal"><input type="checkbox" name="learnerProfile" value="inquirer"><span>inquirer</span></label>
+                  <label class="chip chip-blue"><input type="checkbox" name="learnerProfile" value="knowledgeable"><span>knowledgeable</span></label>
+                  <label class="chip chip-amber"><input type="checkbox" name="learnerProfile" value="thinker"><span>thinker</span></label>
+                  <label class="chip chip-coral"><input type="checkbox" name="learnerProfile" value="communicator"><span>communicator</span></label>
+                  <label class="chip chip-green"><input type="checkbox" name="learnerProfile" value="principled"><span>principled</span></label>
+                  <label class="chip chip-blue"><input type="checkbox" name="learnerProfile" value="open-minded"><span>open-minded</span></label>
+                  <label class="chip chip-coral"><input type="checkbox" name="learnerProfile" value="caring"><span>caring</span></label>
+                  <label class="chip chip-amber"><input type="checkbox" name="learnerProfile" value="risk-taker"><span>risk-taker</span></label>
+                  <label class="chip chip-teal"><input type="checkbox" name="learnerProfile" value="balanced"><span>balanced</span></label>
+                  <label class="chip chip-green"><input type="checkbox" name="learnerProfile" value="reflective"><span>reflective</span></label>
+                </div>
+              </fieldset>
               <label>
                 <span>Evidence for learner profile</span>
                 <textarea name="learnerProfileEvidence" required rows="5" placeholder="how this was demonstrated"></textarea>
               </label>
-              <label>
-                <span>Approaches to learning</span>
-                <select name="atlSkills" required multiple size="5">
-                  <option>thinking skills</option>
-                  <option>communication skills</option>
-                  <option>social skills</option>
-                  <option>self-management skills</option>
-                  <option>research skills</option>
-                </select>
-              </label>
+              <fieldset class="choice-field">
+                <legend>Approaches to learning</legend>
+                <div class="chip-grid atl-grid">
+                  <label class="chip chip-amber"><input type="checkbox" name="atlSkills" value="thinking skills"><span>thinking skills</span></label>
+                  <label class="chip chip-coral"><input type="checkbox" name="atlSkills" value="communication skills"><span>communication skills</span></label>
+                  <label class="chip chip-blue"><input type="checkbox" name="atlSkills" value="social skills"><span>social skills</span></label>
+                  <label class="chip chip-green"><input type="checkbox" name="atlSkills" value="self-management skills"><span>self-management skills</span></label>
+                  <label class="chip chip-teal"><input type="checkbox" name="atlSkills" value="research skills"><span>research skills</span></label>
+                </div>
+              </fieldset>
               <label>
                 <span>Evidence for approaches to learning</span>
                 <textarea name="atlEvidence" required rows="5" placeholder="what was seen in class"></textarea>
@@ -176,7 +179,17 @@
             <div class="grid two compact">
               <label>
                 <span>Exact sentence count</span>
-                <input name="sentenceTarget" type="number" min="5" max="30" step="1" value="6">
+                <div class="sentence-control">
+                  <input name="sentenceTarget" type="number" min="5" max="30" step="1" value="6">
+                  <div class="sentence-presets" aria-label="Sentence count presets">
+                    <button type="button" data-sentence-preset="6">6</button>
+                    <button type="button" data-sentence-preset="10">10</button>
+                    <button type="button" data-sentence-preset="15">15</button>
+                    <button type="button" data-sentence-preset="20">20</button>
+                    <button type="button" data-sentence-preset="25">25</button>
+                    <button type="button" data-sentence-preset="30">30</button>
+                  </div>
+                </div>
               </label>
               <label>
                 <span>Final encouragement</span>

@@ -28,10 +28,6 @@ const checklistLabels = {
   final_encouragement: "Final encouragement"
 };
 
-function getSelectedValues(select) {
-  return Array.from(select.selectedOptions).map((option) => option.value);
-}
-
 function formToData() {
   const data = new FormData(form);
   return {
@@ -48,9 +44,9 @@ function formToData() {
     uoiEvidence: data.get("uoiEvidence").trim(),
     p4cEvidence: data.get("p4cEvidence").trim(),
     eventEvidence: data.get("eventEvidence").trim(),
-    learnerProfile: getSelectedValues(form.elements.learnerProfile),
+    learnerProfile: data.getAll("learnerProfile"),
     learnerProfileEvidence: data.get("learnerProfileEvidence").trim(),
-    atlSkills: getSelectedValues(form.elements.atlSkills),
+    atlSkills: data.getAll("atlSkills"),
     atlEvidence: data.get("atlEvidence").trim(),
     goalOne: data.get("goalOne").trim(),
     goalTwo: data.get("goalTwo").trim(),
@@ -72,9 +68,18 @@ function applyDataToForm(data) {
     }
 
     if (field instanceof RadioNodeList) {
-      const selected = Array.from(field).find((input) => input.value === value);
-      if (selected) {
-        selected.checked = true;
+      const inputs = Array.from(field);
+
+      if (inputs.some((input) => input.type === "checkbox")) {
+        const values = Array.isArray(value) ? value : [];
+        inputs.forEach((input) => {
+          input.checked = values.includes(input.value);
+        });
+      } else {
+        const selected = inputs.find((input) => input.value === value);
+        if (selected) {
+          selected.checked = true;
+        }
       }
       return;
     }
@@ -271,6 +276,13 @@ form.addEventListener("submit", async (event) => {
 });
 
 saveDraftButton.addEventListener("click", saveDraft);
+
+document.querySelectorAll("[data-sentence-preset]").forEach((button) => {
+  button.addEventListener("click", () => {
+    form.elements.sentenceTarget.value = button.dataset.sentencePreset;
+    form.elements.sentenceTarget.focus();
+  });
+});
 
 clearDraftButton.addEventListener("click", () => {
   localStorage.removeItem(draftKey);
