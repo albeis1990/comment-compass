@@ -3,3 +3,5 @@
 node_modules/
 coverage/
 .comment-compass.env
+deploy-package/
+comment-compass-webroot.zip
